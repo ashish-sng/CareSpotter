@@ -15,7 +15,7 @@ const HospitalList: React.FC<HospitalListProps> = ({ hospitals }) => {
      });
   })
   return (
-    <div>
+    <div className="hospital__list__container">
       {hospitals.map((hospital, index) => (
         <HospitalDetails key={index} hospital={hospital} />
       ))}

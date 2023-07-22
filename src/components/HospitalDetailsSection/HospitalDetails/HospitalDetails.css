@@ -1,11 +1,9 @@
 .hospital__details {
   display: flex;
-  /* flex-direction: column; */
-  /* justify-content: space-between; */
   height: 20vh;
+  width: 80vw;
   padding: 1rem;
   border-radius: 0.5rem;
-  /* background-color: #fff; */
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
 }
 
@@ -66,4 +64,11 @@
 .hospital__right > span {
   font-size: 1.2vw;
   font-weight: 500;
+}
+
+.hospital__city{
+  width: 10vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

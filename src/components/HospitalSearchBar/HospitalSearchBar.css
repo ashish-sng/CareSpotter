@@ -1,17 +1,17 @@
 .hospital__search {
-  background-image: url("../../assets/icons/ambulance.gif");
+  background-image: url("../../assets/icons/ambulanceBackground.jpg");
   background-repeat: no-repeat;
   background-size: auto;
   background-position: bottom center;
   height: 30vh;
   width: 80vw;
-  margin: 5vh auto;
-  padding: 1rem 2rem;
+  padding: 2vh 1.5vw;
+  margin-bottom: 5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  z-index: 999;
   -webkit-box-shadow: 0px 0px 22px 2px rgba(32, 255, 110, 0.773);
   -moz-box-shadow: 0px 0px 22px 2px rgba(32, 255, 110, 0.773);
   box-shadow: 0px 0px 22px 2px rgba(32, 255, 110, 0.773);
@@ -28,16 +28,18 @@
   position: relative;
   display: flex;
   border: 2px solid #ccc;
-  border-radius: 2vh;
+  border-radius: 1rem;
   justify-content: space-evenly;
   align-items: center;
   margin-left: 2.5vw;
 }
 
 .search__bar > img {
-  height: 5vh;
+  height: 7vh;
   width: 5vh;
+  border-radius: 0.8rem 0 0 0.8rem;
   padding-left: 2vw;
+  background-color: white;
 }
 
 .search__bar > input {
@@ -46,6 +48,7 @@
   font-size: 1.2rem;
   font-weight: 700;
   border: none;
+  border-radius: 0 0.9rem 0.9rem 0;
   background-color: white;
   color: black;
 }
@@ -59,7 +62,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-left: 5vw;
+  margin-left: 3vw;
   width: 100%;
 }
 
@@ -87,6 +90,14 @@
   width: 15vw;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: transparent;
+}
+
+.select__area__container > select > option {
+  background-color: white;
+  color: black;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .selected__area {
@@ -96,7 +107,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(249, 62, 62);
+  font-weight: 600;
+  color: white;
+  background-color: transparent;
+  border: 2px solid #ccc;
   border-radius: 5px;
   padding: 0.5vh 0.5vw;
   margin: 0.5vh 0.5vw;
@@ -107,8 +121,8 @@
   width: 4vh;
   font-size: large;
   cursor: pointer;
-  color: white;
-  background-color: #f11d2e;
+  color: black;
+  background-color: white;
   border: none;
   margin-left: 0.5vw;
   display: flex;
@@ -116,21 +130,27 @@
   align-items: center;
 }
 
-.select__area > button {
+.clear__skills {
   background-color: transparent;
-  color: #ff6b6b;
-  font-size: 2vw;
-  cursor: pointer;
-  align-self: flex-end;
-  border: none;
-  margin-bottom: 0.7vh;
+  border: 2px solid white;
 }
 
 .search__range__container {
+  color: white;
+  font-weight: 600;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.reset__range {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  font-weight: 600;
+  margin-top: 1vh;
+  cursor: pointer;
 }
 
 .location__error {

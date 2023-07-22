@@ -2,6 +2,7 @@ import React from "react";
 import "./HospitalDetails.css";
 import hospital from "../../../assets/icons/hospital.png";
 import address from "../../../assets/icons/address.gif";
+import ambulance from "../../../assets/icons/ambulance.gif";
 import { data } from "../../../App";
 
 interface HospitalDetailsProps {
@@ -25,7 +26,10 @@ const HospitalDetails: React.FC<HospitalDetailsProps> = ({
         </div>
       </div>
       <div className="hospital__right">
-        <span>{area}</span>
+        <div className="hospital__city">
+          <img src={ambulance} alt="ambulance" />
+          <span>{area}</span>
+        </div>
         <span>{type} Hospital</span>
       </div>
     </div>
