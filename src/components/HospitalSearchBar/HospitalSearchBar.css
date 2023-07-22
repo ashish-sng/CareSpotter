@@ -57,7 +57,7 @@
 
 .hospital__search__footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin-left: 5vw;
   width: 100%;
@@ -100,7 +100,6 @@
   border-radius: 5px;
   padding: 0.5vh 0.5vw;
   margin: 0.5vh 0.5vw;
-
 }
 
 .remove__area {
@@ -125,4 +124,16 @@
   align-self: flex-end;
   border: none;
   margin-bottom: 0.7vh;
+}
+
+.search__range__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.location__error {
+  width: 5vw;
+  color: red;
 }

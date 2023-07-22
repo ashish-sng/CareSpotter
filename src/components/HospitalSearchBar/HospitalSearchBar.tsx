@@ -1,16 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import "./HospitalSearchBar.css";
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { debounce } from "lodash";
-import Multiselect from "multiselect-react-dropdown";
 import { data } from "../../App";
+import searchIcon from "../../assets/icons/searchIcon.png";
 
 interface HospitalSearchBarProps {
   setHospitals: React.Dispatch<React.SetStateAction<data[]>>;
   uniqueAreas: string[];
   latitude: number;
   longitude: number;
+  setLatitude: React.Dispatch<React.SetStateAction<number>>;
+  setLongitude: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface HospitalsData {
@@ -22,13 +23,40 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
   uniqueAreas,
   latitude,
   longitude,
+  setLatitude,
+  setLongitude,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedArea, setSelectedArea] = useState<string[]>([]);
+  const [areaRange, setAreaRange] = useState<number>(1000000);
+  const [geolocationPermission, setGeolocationPermission] = useState<
+    PermissionState | undefined
+  >(undefined);
+
+  useEffect(() => {
+    const checkGeolocationPermission = async () => {
+      try {
+        const permissionStatus = await navigator.permissions.query({
+          name: "geolocation",
+        });
+        setGeolocationPermission(permissionStatus.state);
+      } catch (error) {
+        console.error("Error checking geolocation permission:", error);
+      }
+    };
+
+    checkGeolocationPermission();
+  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-    getHospitalsList(e.target.value, selectedArea);
+    getHospitalsList(
+      e.target.value,
+      selectedArea,
+      areaRange,
+      latitude,
+      longitude
+    );
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -36,19 +64,61 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
     if (area && !selectedArea.includes(area)) {
       const updatedArea = [...selectedArea, area];
       setSelectedArea(updatedArea);
-      getHospitalsList(searchTerm, updatedArea);
+      getHospitalsList(searchTerm, updatedArea, areaRange, latitude, longitude);
     }
   };
 
-  const handleRemoveSkill = (area: string) => {
+  const handleRemoveArea = (area: string) => {
     const updatedArea = selectedArea.filter((s) => s !== area);
     setSelectedArea(updatedArea);
-    getHospitalsList(searchTerm, updatedArea);
+    getHospitalsList(searchTerm, updatedArea, areaRange, latitude, longitude);
   };
 
-  const clearSkills = () => {
+  const clearArea = () => {
     setSelectedArea([]);
-    getHospitalsList(searchTerm, []);
+    getHospitalsList(searchTerm, [], areaRange, latitude, longitude);
+  };
+
+  const handleResetRange = () => {
+    setAreaRange(30000);
+    getHospitalsList(searchTerm, selectedArea, 30000, latitude, longitude);
+  };
+
+  const handleRangeChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const range = parseInt(e.target.value);
+    setAreaRange(range);
+
+    // Check if geolocation is supported by the browser
+    if ("geolocation" in navigator) {
+      try {
+        // Try to get the user's current location
+        const position = await new Promise<GeolocationPosition>(
+          (resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+          }
+        );
+
+        // If the user's location is obtained, you can access the latitude and longitude
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+
+        // Call the getHospitalsList function with the updated range, selectedArea, and user's location
+        getHospitalsList(searchTerm, selectedArea, range, latitude, longitude);
+      } catch (error) {
+        // If there's an error getting the user's location or the user denies the permission, handle it here
+        console.error("Error getting user's location:", error);
+      }
+    } else {
+      console.warn("Geolocation is not supported in this browser.");
+      // Call the getHospitalsList function with the updated range and selectedArea without the user's location
+      getHospitalsList(
+        searchTerm,
+        selectedArea,
+        areaRange,
+        latitude,
+        longitude
+      );
+    }
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -58,31 +128,44 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
     console.log("Selected Skills:", selectedArea);
   };
 
-  const getHospitalsList = useCallback(debounce(async (searchTerm: string, selectedArea: string[]) => {
-    axios
-      .get<HospitalsData>("http://localhost:4000/getHospitals", {
-        params: {
-          area: selectedArea.join(","),
-          searchName: searchTerm,
-          // skills: searchName.join(","),
-        },
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then((response: AxiosResponse<any>) => {
-        console.log("Response:", response.data.data.hospitalsList);
-        setHospitals(response.data.data.hospitalsList);
-      })
-      .catch((error: AxiosError) => {
-        console.error("Error fetching data: ", error);
-      });
-  }, 500), []);
-
+  const getHospitalsList = useCallback(
+    debounce(
+      async (
+        searchTerm: string,
+        selectedArea: string[],
+        areaRange: number,
+        latitude: number,
+        longitude: number
+      ) => {
+        axios
+          .get<HospitalsData>("http://localhost:4000/getHospitals", {
+            params: {
+              area: selectedArea.join(","),
+              searchName: searchTerm,
+              latitude: latitude,
+              longitude: longitude,
+              range: areaRange,
+            },
+          })
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .then((response: AxiosResponse<any>) => {
+            console.log("Response:", response.data.data.hospitalsList);
+            setHospitals(response.data.data.hospitalsList);
+          })
+          .catch((error: AxiosError) => {
+            console.error("Error fetching data: ", error);
+          });
+      },
+      500
+    ),
+    []
+  );
 
   return (
     <div className="hospital__search">
       <form className="search__form" onSubmit={handleSearchSubmit}>
         <div className="search__bar">
-          <img src="" alt="Search Icon" />
+          <img src={searchIcon} alt="Search Icon" />
           <input
             type="text"
             placeholder="Type any job title"
@@ -105,7 +188,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
                 {area}
                 <button
                   className="remove__area"
-                  onClick={() => handleRemoveSkill(area)}
+                  onClick={() => handleRemoveArea(area)}
                 >
                   X
                 </button>
@@ -113,9 +196,29 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
             ))}
           </div>
           {selectedArea.length > 0 && (
-            <button className="clear__skills" onClick={clearSkills}>
+            <button className="clear__skills" onClick={clearArea}>
               Clear
             </button>
+          )}
+        </div>
+        <div className="search__range__container">
+          {geolocationPermission === "granted" ? (
+            <>
+              <p>search Range:</p>
+              <input
+                type="range"
+                min={1}
+                max={30000}
+                value={areaRange}
+                onChange={handleRangeChange}
+              />
+              <span>{areaRange.toLocaleString()}</span>
+              <button className="reset__range" onClick={handleResetRange}>
+                Reset Range
+              </button>
+            </>
+          ) : (
+            <span className="location__error">Location permission denied</span>
           )}
         </div>
       </div>
