@@ -196,7 +196,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
             ))}
           </div>
           {selectedArea.length > 0 && (
-            <button className="clear__skills" onClick={clearArea}>
+            <button className="clear__area" onClick={clearArea}>
               Clear
             </button>
           )}

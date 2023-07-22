@@ -1,24 +1,53 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
+import "./HospitalList.css";
 import HospitalDetails from "./HospitalDetails/HospitalDetails";
 import { data } from "../../App";
+import next from "../../assets/icons/next.gif";
+import previous from "../../assets/icons/previous.gif";
 
 interface HospitalListProps {
   hospitals: data[];
 }
 
 const HospitalList: React.FC<HospitalListProps> = ({ hospitals }) => {
+  const itemsPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(hospitals.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = currentPage * itemsPerPage;
 
   useEffect(() => {
-     navigator.geolocation.getCurrentPosition(function (position) {
-       console.log("Latitude is :", position.coords.latitude);
-       console.log("Longitude is :", position.coords.longitude);
-     });
-  })
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log("Latitude is:", position.coords.latitude);
+      console.log("Longitude is:", position.coords.longitude);
+    });
+  }, []);
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
   return (
     <div className="hospital__list__container">
-      {hospitals.map((hospital, index) => (
+      {hospitals.slice(startIndex, endIndex).map((hospital, index) => (
         <HospitalDetails key={index} hospital={hospital} />
       ))}
+
+      <div className="pagination__buttons">
+        <button onClick={handlePrevPage} disabled={currentPage === 1}>
+          <img src={previous} alt="previous" />
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          <img src={next} alt="next" />
+        </button>
+      </div>
     </div>
   );
 };
