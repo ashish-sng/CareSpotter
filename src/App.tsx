@@ -16,20 +16,11 @@ export interface data {
 }
 
 function App() {
-  const [hospitals, setHospitals] = useState<data[]>([]); // Ensure hospitals is initialized as an empty array
+  const [hospitals, setHospitals] = useState<data[]>([]);
   const [uniqueAreas, setUniqueAreas] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-    });
-  },[]);
 
   useEffect(() => {
     // Function to fetch unique areas from the backend API
@@ -67,6 +58,8 @@ function App() {
       <HospitalSearchBar
         uniqueAreas={uniqueAreas}
         setHospitals={setHospitals}
+        setLatitude={setLatitude}
+        setLongitude={setLongitude}
         latitude={latitude}
         longitude={longitude}
       />
