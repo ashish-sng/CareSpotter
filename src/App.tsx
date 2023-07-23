@@ -5,6 +5,9 @@ import HospitalList from "./components/HospitalDetailsSection/HospitalList";
 import Loading from "./components/Loading/Loading";
 import NotFound from "./components/NotFound/NotFound";
 import axios from "axios";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Health from "./components/Health/Health";
+import BASEURL from "./baseurl";
 
 export interface data {
   hospitalName: string;
@@ -27,9 +30,7 @@ function App() {
     const fetchUniqueAreas = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          "http://localhost:4000/getUniqueAreas"
-        );
+        const response = await axios.get(`${BASEURL}/getUniqueAreas`);
         setUniqueAreas(response.data.data.areas);
       } catch (error) {
         console.error("Error fetching unique areas:", error);
@@ -44,7 +45,7 @@ function App() {
     // Function to fetch hospitals from the backend API
     const fetchHospitals = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/getHospitals");
+        const response = await axios.get(`${BASEURL}/getHospitals`);
         setHospitals(response.data.data.hospitalsList);
       } catch (error) {
         console.error("Error fetching hospitals:", error);
@@ -55,21 +56,33 @@ function App() {
 
   return (
     <div className="App">
-      <HospitalSearchBar
-        uniqueAreas={uniqueAreas}
-        setHospitals={setHospitals}
-        setLatitude={setLatitude}
-        setLongitude={setLongitude}
-        latitude={latitude}
-        longitude={longitude}
-      />
-      {loading ? (
-        <Loading />
-      ) : hospitals?.length > 0 ? (
-        <HospitalList hospitals={hospitals} />
-      ) : (
-        <NotFound />
-      )}
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <HospitalSearchBar
+                  uniqueAreas={uniqueAreas}
+                  setHospitals={setHospitals}
+                  setLatitude={setLatitude}
+                  setLongitude={setLongitude}
+                  latitude={latitude}
+                  longitude={longitude}
+                />
+                {loading ? (
+                  <Loading />
+                ) : hospitals?.length > 0 ? (
+                  <HospitalList hospitals={hospitals} />
+                ) : (
+                  <NotFound />
+                )}
+              </>
+            }
+          />
+          <Route path="/health" element={<Health />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

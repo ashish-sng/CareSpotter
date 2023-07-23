@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./HospitalList.css";
 import HospitalDetails from "./HospitalDetails/HospitalDetails";
 import { data } from "../../App";
@@ -15,13 +15,6 @@ const HospitalList: React.FC<HospitalListProps> = ({ hospitals }) => {
   const totalPages = Math.ceil(hospitals.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = currentPage * itemsPerPage;
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      console.log("Latitude is:", position.coords.latitude);
-      console.log("Longitude is:", position.coords.longitude);
-    });
-  }, []);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));

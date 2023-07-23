@@ -1,7 +1,11 @@
 .loader {
-    height: 40vh;
+    height: 50vh;
     width: 80vw;
     padding: 2rem;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .lds-roller {
@@ -21,7 +25,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #fff;
+  background: black;
   margin: -4px 0 0 -4px;
 }
 .lds-roller div:nth-child(1) {

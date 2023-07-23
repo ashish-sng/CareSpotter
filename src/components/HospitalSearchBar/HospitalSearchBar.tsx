@@ -4,6 +4,7 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 import { debounce } from "lodash";
 import { data } from "../../App";
 import searchIcon from "../../assets/icons/searchIcon.png";
+import BASEURL from "../../baseurl";
 
 interface HospitalSearchBarProps {
   setHospitals: React.Dispatch<React.SetStateAction<data[]>>;
@@ -121,13 +122,6 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
     }
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Perform search operation with the search term and selected skills
-    console.log("Search Term:", searchTerm);
-    console.log("Selected Skills:", selectedArea);
-  };
-
   const getHospitalsList = useCallback(
     debounce(
       async (
@@ -138,7 +132,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
         longitude: number
       ) => {
         axios
-          .get<HospitalsData>("http://localhost:4000/getHospitals", {
+          .get<HospitalsData>(`${BASEURL}/getHospitals`, {
             params: {
               area: selectedArea.join(","),
               searchName: searchTerm,
@@ -149,11 +143,11 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
           })
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .then((response: AxiosResponse<any>) => {
-            console.log("Response:", response.data.data.hospitalsList);
             setHospitals(response.data.data.hospitalsList);
           })
           .catch((error: AxiosError) => {
             console.error("Error fetching data: ", error);
+            window.location.reload();
           });
       },
       500
@@ -163,7 +157,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
 
   return (
     <div className="hospital__search">
-      <form className="search__form" onSubmit={handleSearchSubmit}>
+      <form className="search__form">
         <div className="search__bar">
           <img src={searchIcon} alt="Search Icon" />
           <input
