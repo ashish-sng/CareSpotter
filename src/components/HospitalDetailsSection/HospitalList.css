@@ -3,19 +3,24 @@
   flex-direction: column;
   align-items: center;
   width: 83vw;
-  max-height: 52vh;
+  max-height: 45vh;
   overflow-y: scroll;
   overflow-x: hidden;
   z-index: 100;
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .pagination__buttons {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: 83vw;
+  background-color: white;
 }
 
 .pagination__buttons > span {

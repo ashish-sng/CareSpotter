@@ -3,6 +3,7 @@
   background-repeat: no-repeat;
   background-size: auto;
   background-position: bottom center;
+  min-height: 35vh;
   height: auto;
   width: 80vw;
   padding: 2vh 1.5vw;
