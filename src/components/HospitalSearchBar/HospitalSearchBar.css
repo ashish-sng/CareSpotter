@@ -68,14 +68,12 @@
 }
 
 .select__area__container {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border-radius: 5px;
   padding: 0.5vh 0.5vw;
   margin: 0.5vh 0.5vw;
-  width: 65vw;
+  width: 58vw;
 }
 
 .selected__area__container {
@@ -168,7 +166,8 @@
 }
 
 .location__error {
-  width: 5vw;
+  padding: 0 2rem;
+  width: 15vw;
   color: red;
 }
 
@@ -304,6 +303,10 @@ option {
 
   .reset__range {
     font-size: medium;
+  }
+
+  .location__error {
+    width: 70vw;
   }
 
   .custom__select {
