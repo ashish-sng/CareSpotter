@@ -29,7 +29,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedArea, setSelectedArea] = useState<string[]>([]);
-  const [areaRange, setAreaRange] = useState<number>(1000000);
+  const [areaRange, setAreaRange] = useState<number>(30000);
   const [geolocationPermission, setGeolocationPermission] = useState<
     PermissionState | undefined
   >(undefined);
