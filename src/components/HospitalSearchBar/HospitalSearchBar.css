@@ -3,7 +3,7 @@
   background-repeat: no-repeat;
   background-size: auto;
   background-position: bottom center;
-  height: 30vh;
+  height: auto;
   width: 80vw;
   padding: 2vh 1.5vw;
   margin-bottom: 5vh;
@@ -88,6 +88,7 @@
 .select__area__container > select {
   height: 5vh;
   width: 15vw;
+  font-weight: 600;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: transparent;
@@ -170,6 +171,58 @@
   color: red;
 }
 
+.custom__select {
+  position: relative;
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 1vh 1vw;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-start;
+  margin-left: 2vw;
+  width: auto;
+}
+
+.custom__select > span {
+  font-size: 1rem;
+  color: black;
+  font-weight: 600;
+}
+
+select,
+option {
+  border: none;
+  outline: none;
+}
+
+.custom__select > select {
+  padding: 0.5vh 0.5vw;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.custom__select .arrow {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 6px 0 6px;
+  border-color: #000000 transparent transparent transparent;
+  pointer-events: none;
+}
+
 @media all and (max-width: 650px) and (min-width: 100px) {
   .hospital__search {
     height: auto;
@@ -187,7 +240,7 @@
   }
 
   .search__bar > img {
-    height: 7vh;
+    height: 6vh;
     width: 6vh;
     border-radius: 0.8rem 0 0 0.8rem;
     padding-left: 2vw;
@@ -195,7 +248,7 @@
   }
 
   .search__bar > input {
-    height: 3vh;
+    height: 2vh;
     width: 70vw;
     padding: 2vh 1vw;
     font-size: 1rem;
@@ -250,5 +303,10 @@
 
   .reset__range {
     font-size: medium;
+  }
+
+  .custom__select {
+    align-self: center;
+    width: 50vw;
   }
 }

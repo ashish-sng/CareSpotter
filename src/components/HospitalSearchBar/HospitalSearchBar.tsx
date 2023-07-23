@@ -33,6 +33,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
   const [geolocationPermission, setGeolocationPermission] = useState<
     PermissionState | undefined
   >(undefined);
+  const [selected, setSelected] = useState<string>("");
 
   useEffect(() => {
     const checkGeolocationPermission = async () => {
@@ -56,7 +57,8 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
       selectedArea,
       areaRange,
       latitude,
-      longitude
+      longitude,
+      selected
     );
   };
 
@@ -65,24 +67,57 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
     if (area && !selectedArea.includes(area)) {
       const updatedArea = [...selectedArea, area];
       setSelectedArea(updatedArea);
-      getHospitalsList(searchTerm, updatedArea, areaRange, latitude, longitude);
+      getHospitalsList(
+        searchTerm,
+        updatedArea,
+        areaRange,
+        latitude,
+        longitude,
+        selected
+      );
     }
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelected(e.target.value);
+    getHospitalsList(
+      searchTerm,
+      selectedArea,
+      areaRange,
+      latitude,
+      longitude,
+      e.target.value
+    );
   };
 
   const handleRemoveArea = (area: string) => {
     const updatedArea = selectedArea.filter((s) => s !== area);
     setSelectedArea(updatedArea);
-    getHospitalsList(searchTerm, updatedArea, areaRange, latitude, longitude);
+    getHospitalsList(
+      searchTerm,
+      updatedArea,
+      areaRange,
+      latitude,
+      longitude,
+      selected
+    );
   };
 
   const clearArea = () => {
     setSelectedArea([]);
-    getHospitalsList(searchTerm, [], areaRange, latitude, longitude);
+    getHospitalsList(searchTerm, [], areaRange, latitude, longitude, selected);
   };
 
   const handleResetRange = () => {
     setAreaRange(30000);
-    getHospitalsList(searchTerm, selectedArea, 30000, latitude, longitude);
+    getHospitalsList(
+      searchTerm,
+      selectedArea,
+      30000,
+      latitude,
+      longitude,
+      selected
+    );
   };
 
   const handleRangeChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +139,14 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
         setLongitude(position.coords.longitude);
 
         // Call the getHospitalsList function with the updated range, selectedArea, and user's location
-        getHospitalsList(searchTerm, selectedArea, range, latitude, longitude);
+        getHospitalsList(
+          searchTerm,
+          selectedArea,
+          range,
+          latitude,
+          longitude,
+          selected
+        );
       } catch (error) {
         // If there's an error getting the user's location or the user denies the permission, handle it here
         console.error("Error getting user's location:", error);
@@ -117,7 +159,8 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
         selectedArea,
         areaRange,
         latitude,
-        longitude
+        longitude,
+        selected
       );
     }
   };
@@ -129,7 +172,8 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
         selectedArea: string[],
         areaRange: number,
         latitude: number,
-        longitude: number
+        longitude: number,
+        selected: string
       ) => {
         axios
           .get<HospitalsData>(`${BASEURL}/getHospitals`, {
@@ -139,6 +183,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
               latitude: latitude,
               longitude: longitude,
               range: areaRange,
+              sortBy: selected,
             },
           })
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -215,6 +260,14 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
             <span className="location__error">Location permission denied</span>
           )}
         </div>
+      </div>
+      <div className="custom__select">
+        <span>Sort By:</span>
+        <select value={selected} onChange={handleSortChange}>
+          <option value="hospitalName">Hospital Name</option>
+          <option value="area">Area</option>
+        </select>
+        <span className="arrow"></span>
       </div>
     </div>
   );
