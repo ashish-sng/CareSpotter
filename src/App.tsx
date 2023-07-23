@@ -26,6 +26,28 @@ function App() {
   const [longitude, setLongitude] = useState<number>(0);
 
   useEffect(() => {
+    // Function to get the user's current location
+    const getLocation = () => {
+      if ("geolocation" in navigator) {
+        // Get the user's current position
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
+          },
+          (error) => {
+            console.error("Error getting user's location:", error.message);
+          }
+        );
+      } else {
+        console.warn("Geolocation is not supported in this browser.");
+      }
+    };
+
+    getLocation();
+  }, []);
+
+  useEffect(() => {
     // Function to fetch unique areas from the backend API
     const fetchUniqueAreas = async () => {
       try {
