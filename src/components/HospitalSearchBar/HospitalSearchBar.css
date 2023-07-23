@@ -173,14 +173,14 @@
 @media all and (max-width: 650px) and (min-width: 100px) {
   .hospital__search {
     height: auto;
-    width: 95vw;
+    width: 92vw;
     padding: 1vh 1vw;
     margin-bottom: 3vh;
   }
 
   .search__form {
     margin: 1vh 5vw;
-    width: 95vw;
+    width: 92vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -195,6 +195,7 @@
   }
 
   .search__bar > input {
+    height: 3vh;
     width: 70vw;
     padding: 2vh 1vw;
     font-size: 1rem;
