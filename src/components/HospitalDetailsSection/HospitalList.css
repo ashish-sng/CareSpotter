@@ -27,3 +27,9 @@
   border: none;
   background-color: transparent;
 }
+
+@media all and (max-width: 650px) and (min-width: 100px){
+  .hospital__list__container {
+    width: 100vw;
+  }
+}

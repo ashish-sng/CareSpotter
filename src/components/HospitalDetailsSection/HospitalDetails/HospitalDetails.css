@@ -31,7 +31,7 @@
 }
 
 .hospital__name > span {
-  font-size: 1.5vw;
+  font-size: 1.2rem;
 }
 
 .hospital__address {
@@ -48,7 +48,7 @@
 }
 
 .hospital__address > p {
-  font-size: 1.2vw;
+  font-size: 1rem;
 }
 
 .hospital__right {
@@ -62,13 +62,79 @@
 }
 
 .hospital__right > span {
-  font-size: 1.2vw;
+  font-size: 1rem;
   font-weight: 500;
 }
 
-.hospital__city{
+.hospital__city {
   width: 10vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media all and (max-width: 650px) and (min-width: 100px) {
+  .hospital__details {
+    height: auto;
+    width: 100vw;
+    flex-direction: column;
+  }
+
+  .hospital__left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-left: 5vw;
+    height: 100%;
+    width: 100%;
+  }
+
+  .hospital__name > img {
+    height: 8vh;
+    width: auto;
+  }
+
+  .hospital__name > span {
+    font-size: 1rem;
+  }
+
+  .hospital__address {
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .hospital__address > img {
+    height: 5vh;
+    border-radius: 50%;
+  }
+
+  .hospital__address > p {
+    font-size: 1rem;
+  }
+
+  .hospital__right {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-right: 10vw;
+    height: 100%;
+    width: 100%;
+  }
+
+  .hospital__right > span {
+    font-size: 1rem;
+  }
+
+  .hospital__city {
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+  }
 }

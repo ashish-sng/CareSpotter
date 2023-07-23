@@ -169,3 +169,85 @@
   width: 5vw;
   color: red;
 }
+
+@media all and (max-width: 650px) and (min-width: 100px) {
+  .hospital__search {
+    height: auto;
+    width: 95vw;
+    padding: 1vh 1vw;
+    margin-bottom: 3vh;
+  }
+
+  .search__form {
+    margin: 1vh 5vw;
+    width: 95vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search__bar > img {
+    height: 7vh;
+    width: 6vh;
+    border-radius: 0.8rem 0 0 0.8rem;
+    padding-left: 2vw;
+    background-color: white;
+  }
+
+  .search__bar > input {
+    width: 70vw;
+    padding: 2vh 1vw;
+    font-size: 1rem;
+  }
+
+  .search__bar > input:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .hospital__search__footer {
+    flex-direction: column;
+    width: 100vw;
+  }
+
+  .select__area__container {
+    flex-direction: column;
+  }
+
+  .selected__area__container {
+    flex-wrap: wrap;
+    width: 95vw;
+  }
+
+  .select__area__container > select {
+    width: 50vw;
+  }
+
+  .select__area__container > select > option {
+    font-size: 0.5rem;
+  }
+
+  .selected__area {
+    font-size: x-small;
+    width: 40vw;
+    font-weight: 500;
+  }
+
+  .remove__area {
+    height: 3vh;
+    width: 3vh;
+  }
+
+  .clear__area {
+    font-size: medium;
+    padding: 1vh 2vw;
+  }
+
+  .search__range__container {
+    font-size: medium;
+  }
+
+  .reset__range {
+    font-size: medium;
+  }
+}
