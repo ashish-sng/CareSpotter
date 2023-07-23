@@ -257,7 +257,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
               </button>
             </>
           ) : (
-            <span className="location__error">Location permission denied. Allow LOcation permission and refresh.</span>
+            <span className="location__error">Location permission denied. Allow Location permission and refresh.</span>
           )}
         </div>
       </div>
