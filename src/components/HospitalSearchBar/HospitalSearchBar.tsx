@@ -29,7 +29,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedArea, setSelectedArea] = useState<string[]>([]);
-  const [areaRange, setAreaRange] = useState<number>(30000);
+  const [areaRange, setAreaRange] = useState<number>(500);
   const [geolocationPermission, setGeolocationPermission] = useState<
     PermissionState | undefined
   >(undefined);
@@ -109,11 +109,11 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
   };
 
   const handleResetRange = () => {
-    setAreaRange(30000);
+    setAreaRange(500);
     getHospitalsList(
       searchTerm,
       selectedArea,
-      30000,
+      500,
       latitude,
       longitude,
       selected
@@ -247,7 +247,7 @@ const HospitalSearchBar: React.FC<HospitalSearchBarProps> = ({
               <input
                 type="range"
                 min={1}
-                max={30000}
+                max={500}
                 value={areaRange}
                 onChange={handleRangeChange}
               />
