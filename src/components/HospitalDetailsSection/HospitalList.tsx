@@ -24,8 +24,35 @@ const HospitalList: React.FC<HospitalListProps> = ({ hospitals }) => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const [prevState, setPrevState] = useState<string>("");
+  const [colName, setColName] = useState<string>("");
+
+  const sortAccordingToQuery = (query: string) => () => {
+    if (query === colName) {
+      if (prevState === "") {
+        console.log(`ascending sort ${query}`);
+        setPrevState("asc");
+      } else if (prevState === "asc") {
+        console.log(`descending sort ${query}`);
+        setPrevState("dsc");
+      } else if (prevState === "dsc") {
+        console.log(`Default ${query}`);
+        setPrevState("");
+      }
+    } else {
+      console.log(`ascending sort ${query}`);
+      setPrevState("asc");
+      setColName(query);
+    }
+  };
+
   return (
     <div className="hospital__list__container">
+      <div className="row">
+        <span onClick={sortAccordingToQuery("name")}>Name</span>
+        <span onClick={sortAccordingToQuery("area")}>Area</span>
+        <span onClick={sortAccordingToQuery("hospitalName")}>HospitalName</span>
+      </div>
       {hospitals.slice(startIndex, endIndex).map((hospital, index) => (
         <HospitalDetails key={index} hospital={hospital} />
       ))}
